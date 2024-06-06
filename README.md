@@ -2,6 +2,15 @@
 
 `fastapi-csrf-jinja` is a CSRF middleware for FastAPI applications that supports tokens in both headers and HTML forms. This library is based on `starlette-csrf`, with additional support for Jinja template integration.
 
+## How it works?
+
+1. The user makes a first request with a method considered safe (by default `GET`, `HEAD`, `OPTIONS`, `TRACE`).
+2. It receives in response a cookie (named by default `csrftoken`) which contains a secret value.
+3. When the user wants to make an unsafe request, the server expects them to send the same secret value in a header (named by default `x-csrftoken`). Additionally, the middleware now allows submission of the token via HTML forms using Jinja.
+4. The middleware compares the secret value provided in the cookie with the value in the header or form:
+   * If they match, the request is processed.
+   * Otherwise, a `403 Forbidden` error response is given.
+
 ## Features
 - Supports CSRF tokens in headers and HTML forms.
 - Jinja template processor for easy CSRF token management in forms.
@@ -17,8 +26,8 @@ pip install fastapi-csrf-jinja
 ```py
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
-from fastapi-csrf-jinja.middleware import FastAPICSRFJinjaMiddleware
-from fastapi-csrf-jinja.processor import csrf_token_processor
+from fastapi_csrf_jinja.middleware import FastAPICSRFJinjaMiddleware
+from fastapi_csrf_jinja.jinja_processor import csrf_token_processor
 
 app = FastAPI()
 
