@@ -1,0 +1,7 @@
+<form action="/post2" method="post">
+	{{ csrf_input | safe }}
+	<input type="text" name="id" value="foobar">
+	<input type="text" name="title" value="Foo Bar">
+	<input type="text" name="description" value="The Foo Barters">
+	<input type="submit" value="Submit">
+</form>
